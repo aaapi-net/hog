@@ -1,3 +1,3 @@
-module hog
+module github.com/aaapi-net/hog
 
 go 1.16
