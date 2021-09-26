@@ -11,9 +11,7 @@ type PostJson struct {
 	post HPost
 }
 
-
-
-func (h *PostJson) Response() (response *http.Response, err error){
+func (h *PostJson) Response() (response *http.Response, err error) {
 	data, err := json.Marshal(h.post.body)
 	if err != nil {
 		return
@@ -31,17 +29,21 @@ func (h *PostJson) Response() (response *http.Response, err error){
 	fillHeaders(&req.Header, h.post.hog.headers)
 
 	if req.Header.Get("Content-Type") == "" {
-		req.Header.Add("Content-Type",  "application/json")
+		req.Header.Add("Content-Type", "application/json")
+	}
+
+	if req.Header.Get("Accept") == "" {
+		req.Header.Add("Accept", "application/json; charset=utf-8")
 	}
 
 	return h.post.hog.client.Do(req)
 }
 
-func (h *PostJson) AsBytesResponse() (result []byte, response *http.Response, err error){
+func (h *PostJson) AsBytesResponse() (result []byte, response *http.Response, err error) {
 	return AsBytesResponse(h)
 }
 
-func (h *PostJson) AsStringResponse() (result string, response *http.Response,  err error) {
+func (h *PostJson) AsStringResponse() (result string, response *http.Response, err error) {
 	return AsStringResponse(h)
 }
 
@@ -49,23 +51,22 @@ func (h *PostJson) ToStructResponse(out interface{}) (response *http.Response, e
 	return ToStructResponse(h, out)
 }
 
-
-func (h *PostJson) AsBytes() (result []byte, err error){
-	result, _,  err = h.AsBytesResponse()
+func (h *PostJson) AsBytes() (result []byte, err error) {
+	result, _, err = h.AsBytesResponse()
 	return
 }
 
-func (h PostJson) AsString() (result string, err error)  {
+func (h PostJson) AsString() (result string, err error) {
 	result, _, err = h.AsStringResponse()
 	return
 }
 
-func (h PostJson) ToStruct(out interface{}) (err error)  {
+func (h PostJson) ToStruct(out interface{}) (err error) {
 	_, err = h.ToStructResponse(out)
 	return
 }
 
-func (h PostJson) AsMap() (result map[string]interface{}, err error)  {
+func (h PostJson) AsMap() (result map[string]interface{}, err error) {
 	err = h.ToStruct(&result)
 	return
 }
