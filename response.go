@@ -12,6 +12,7 @@ type Response interface {
 
 func AsBytesResponse(r Response) (result []byte, response *http.Response, err error){
 	response, err = r.Response()
+	defer response.Body.Close()
 
 	if err == nil {
 		result, err = ioutil.ReadAll(response.Body)

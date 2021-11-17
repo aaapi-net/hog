@@ -3,6 +3,7 @@ package hog
 import (
 	"context"
 	"crypto/tls"
+	"fmt"
 	"net/http"
 	"net/url"
 	"time"
@@ -57,18 +58,10 @@ func (h *Hog) Post(url string) *HPost {
 }
 
 func getFullUrl(uri string, params *url.Values) string {
-	url, _ := url.ParseRequestURI(uri)
-
-	if params != nil {
-		for k, varr := range *params {
-			for _, v := range varr {
-				url.Query().Add(k, v)
-			}
-		}
-
+	if params == nil {
+		return uri
 	}
-
-	return url.String()
+	return fmt.Sprint(uri, "?", params.Encode())
 }
 
 func fillHeaders(dest *http.Header, source *http.Header,)  {

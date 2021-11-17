@@ -2,6 +2,7 @@ package hog
 
 import (
 	"context"
+	"log"
 	"net/http"
 	"net/url"
 )
@@ -52,6 +53,7 @@ func (h *HGet) Response() (response *http.Response, err error) {
 
 	fillHeaders(&req.Header, h.hog.headers)
 
+	log.Println(req)
 	return h.hog.client.Do(req)
 }
 

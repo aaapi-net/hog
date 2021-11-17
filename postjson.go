@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"log"
 	"net/http"
 )
 
@@ -36,6 +37,7 @@ func (h *PostJson) Response() (response *http.Response, err error) {
 		req.Header.Add("Accept", "application/json; charset=utf-8")
 	}
 
+	log.Println(req)
 	return h.post.hog.client.Do(req)
 }
 

@@ -16,6 +16,11 @@ func (h *HPost) Json(body interface{}) *PostJson {
 	return &PostJson{post: *h}
 }
 
+func (h *HPost) Bytes(body []byte) *PostBytes {
+	h.body = body
+	return &PostBytes{post: *h}
+}
+
 func (h *HPost) Form(body url.Values) *PostForm {
 	h.body = body
 	return &PostForm{post: *h}
