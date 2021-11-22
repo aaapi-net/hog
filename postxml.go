@@ -11,15 +11,15 @@ func (h *PostXml) Response() (response *http.Response, err error){
 }
 
 func (h *PostXml) AsBytesResponse() (result []byte, response *http.Response, err error){
-	return AsBytesResponse(h)
+	return asBytesResponse(h)
 }
 
 func (h *PostXml) AsStringResponse() (result string, response *http.Response,  err error) {
-	return AsStringResponse(h)
+	return asStringResponse(h)
 }
 
 func (h *PostXml) ToStructResponse(out interface{}) (response *http.Response, err error) {
-	return ToStructResponse(h, out)
+	return toStructResponse(h, out)
 }
 
 

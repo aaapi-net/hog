@@ -13,15 +13,15 @@ func (h *PostForm) Response() (response *http.Response, err error){
 }
 
 func (h *PostForm) AsBytesResponse() (result []byte, response *http.Response, err error){
-	return AsBytesResponse(h)
+	return asBytesResponse(h)
 }
 
 func (h *PostForm) AsStringResponse() (result string, response *http.Response,  err error) {
-	return AsStringResponse(h)
+	return asStringResponse(h)
 }
 
 func (h *PostForm) ToStructResponse(out interface{}) (response *http.Response, err error) {
-	return ToStructResponse(h, out)
+	return toStructResponse(h, out)
 }
 
 

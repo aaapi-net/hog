@@ -42,15 +42,15 @@ func (h *PostJson) Response() (response *http.Response, err error) {
 }
 
 func (h *PostJson) AsBytesResponse() (result []byte, response *http.Response, err error) {
-	return AsBytesResponse(h)
+	return asBytesResponse(h)
 }
 
 func (h *PostJson) AsStringResponse() (result string, response *http.Response, err error) {
-	return AsStringResponse(h)
+	return asStringResponse(h)
 }
 
 func (h *PostJson) ToStructResponse(out interface{}) (response *http.Response, err error) {
-	return ToStructResponse(h, out)
+	return toStructResponse(h, out)
 }
 
 func (h *PostJson) AsBytes() (result []byte, err error) {

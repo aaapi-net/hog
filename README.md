@@ -127,7 +127,7 @@ import (
 )
 
 func main() {
-	h := hog.New()
+	h := hog.NewConfig(true, 60)    // secure: true, timeout: 60
 
 	result, err := h.
 		Context(context.Background()).

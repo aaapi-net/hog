@@ -58,15 +58,15 @@ func (h *HGet) Response() (response *http.Response, err error) {
 }
 
 func (h *HGet) AsBytesResponse() (result []byte, response *http.Response, err error){
-	return AsBytesResponse(h)
+	return asBytesResponse(h)
 }
 
 func (h *HGet) AsStringResponse() (result string, response *http.Response,  err error) {
-	return AsStringResponse(h)
+	return asStringResponse(h)
 }
 
 func (h *HGet) ToStructResponse(out interface{}) (response *http.Response, err error) {
-	return ToStructResponse(h, out)
+	return toStructResponse(h, out)
 }
 
 func (h *HGet) AsMapResponse() (result map[string]interface{}, response *http.Response,  err error) {

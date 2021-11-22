@@ -32,15 +32,15 @@ func (h *PostBytes) Response() (response *http.Response, err error) {
 }
 
 func (h *PostBytes) AsBytesResponse() (result []byte, response *http.Response, err error) {
-	return AsBytesResponse(h)
+	return asBytesResponse(h)
 }
 
 func (h *PostBytes) AsStringResponse() (result string, response *http.Response, err error) {
-	return AsStringResponse(h)
+	return asStringResponse(h)
 }
 
 func (h *PostBytes) ToStructResponse(out interface{}) (response *http.Response, err error) {
-	return ToStructResponse(h, out)
+	return toStructResponse(h, out)
 }
 
 func (h *PostBytes) AsBytes() (result []byte, err error) {

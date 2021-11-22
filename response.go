@@ -3,14 +3,15 @@ package hog
 import (
 	"encoding/json"
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 
-type Response interface {
+type response interface {
 	Response() (response *http.Response, err error)
 }
 
-func AsBytesResponse(r Response) (result []byte, response *http.Response, err error){
+func asBytesResponse(r response) (result []byte, response *http.Response, err error){
 	response, err = r.Response()
 	defer response.Body.Close()
 
@@ -22,8 +23,8 @@ func AsBytesResponse(r Response) (result []byte, response *http.Response, err er
 	return
 }
 
-func AsStringResponse(r Response) (result string, response *http.Response,  err error) {
-	data, response, err := AsBytesResponse(r)
+func asStringResponse(r response) (result string, response *http.Response,  err error) {
+	data, response, err := asBytesResponse(r)
 
 	if err == nil{
 		result = string(data)
@@ -32,11 +33,12 @@ func AsStringResponse(r Response) (result string, response *http.Response,  err 
 	return
 }
 
-func ToStructResponse(r Response, out interface{}) (response *http.Response, err error) {
-	data, response, err := AsBytesResponse(r)
+func toStructResponse(r response, out interface{}) (response *http.Response, err error) {
+	data, response, err := asBytesResponse(r)
 
 	if err == nil {
 		err = json.Unmarshal(data, out)
+		log.Println(string(data))
 	}
 
 	return
