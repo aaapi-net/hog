@@ -28,6 +28,10 @@ func Post(url string) *HPost {
 	return hog.Post(url)
 }
 
+func Put(url string) *HPut {
+	hog := New()
+	return hog.Put(url)
+}
 
 func New() *Hog {
 	return NewConfig(true, 30)
@@ -55,6 +59,11 @@ func (h *Hog) Context(context context.Context) *Hog {
 func (h *Hog) Post(url string) *HPost {
 	h.url = url
 	return  &HPost{hog: *h}
+}
+
+func (h *Hog) Put(url string) *HPut {
+	h.url = url
+	return  &HPut{HPost{hog: *h}}
 }
 
 func getFullUrl(uri string, params *url.Values) string {

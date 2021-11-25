@@ -13,7 +13,6 @@ type HGet struct {
 }
 
 
-
 func (h *Hog) Get(url string) *HGet {
 	h.url = url
 	return  &HGet{hog: *h}

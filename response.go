@@ -1,6 +1,8 @@
 package hog
 
 import (
+	"bytes"
+	"context"
 	"encoding/json"
 	"io/ioutil"
 	"log"
@@ -9,6 +11,38 @@ import (
 
 type response interface {
 	Response() (response *http.Response, err error)
+}
+
+type responseBody interface {
+	Response() (response *http.Response, err error)
+	getBuffer() (buf *bytes.Buffer, err error)
+	getMethod() HMethod
+	fixHeaders(header *http.Header )
+}
+
+func getResponse(r responseBody) (response *http.Response, err error) {
+	method := r.getMethod()
+	hog := method.getHog()
+	buf, err := r.getBuffer()
+
+	if err != nil {
+		return
+	}
+
+	if hog.context == nil {
+		hog.context = context.Background()
+	}
+
+	req, err := http.NewRequestWithContext(hog.context, method.getName(), getFullUrl(hog.url, hog.query), buf)
+	if err != nil {
+		return
+	}
+
+	fillHeaders(&req.Header, hog.headers)
+	r.fixHeaders(&req.Header)
+
+	log.Println(req)
+	return hog.client.Do(req)
 }
 
 func asBytesResponse(r response) (result []byte, response *http.Response, err error){

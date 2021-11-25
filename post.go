@@ -10,25 +10,36 @@ type HPost struct {
 	body interface{}
 }
 
-
-func (h *HPost) Json(body interface{}) *PostJson {
-	h.body = body
-	return &PostJson{post: *h}
+func (h *HPost) getHog() *Hog {
+	return &h.hog
 }
 
-func (h *HPost) Bytes(body []byte) *PostBytes {
-	h.body = body
-	return &PostBytes{post: *h}
+func (h *HPost) getBody() interface{} {
+	return h.body
 }
 
-func (h *HPost) Form(body url.Values) *PostForm {
-	h.body = body
-	return &PostForm{post: *h}
+func (h *HPost) getName() string {
+	return http.MethodPost
 }
 
-func (h *HPost) Xml(body interface{}) *PostXml {
+func (h *HPost) Json(body interface{}) *BodyJson {
 	h.body = body
-	return &PostXml{post: *h}
+	return &BodyJson{method: h}
+}
+
+func (h *HPost) Bytes(body []byte) *BodyBytes {
+	h.body = body
+	return &BodyBytes{method: h}
+}
+
+func (h *HPost) Form(body url.Values) *BodyForm {
+	h.body = body
+	return &BodyForm{method: h}
+}
+
+func (h *HPost) Xml(body interface{}) *BodyXml {
+	h.body = body
+	return &BodyXml{method: h}
 }
 
 func (h *HPost) Headers(headers http.Header) *HPost {
