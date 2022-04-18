@@ -17,7 +17,7 @@ type responseBody interface {
 	Response() (response *http.Response, err error)
 	getBuffer() (buf *bytes.Buffer, err error)
 	getMethod() HMethod
-	fixHeaders(header *http.Header )
+	fixHeaders(header *http.Header)
 }
 
 func getResponse(r responseBody) (response *http.Response, err error) {
@@ -45,7 +45,7 @@ func getResponse(r responseBody) (response *http.Response, err error) {
 	return hog.client.Do(req)
 }
 
-func asBytesResponse(r response) (result []byte, response *http.Response, err error){
+func asBytesResponse(r response) (result []byte, response *http.Response, err error) {
 	response, err = r.Response()
 	defer response.Body.Close()
 
@@ -57,10 +57,10 @@ func asBytesResponse(r response) (result []byte, response *http.Response, err er
 	return
 }
 
-func asStringResponse(r response) (result string, response *http.Response,  err error) {
+func asStringResponse(r response) (result string, response *http.Response, err error) {
 	data, response, err := asBytesResponse(r)
 
-	if err == nil{
+	if err == nil {
 		result = string(data)
 	}
 

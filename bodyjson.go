@@ -23,7 +23,7 @@ func (bj *BodyJson) getMethod() HMethod {
 	return bj.method
 }
 
-func (*BodyJson) fixHeaders(header *http.Header ) {
+func (*BodyJson) fixHeaders(header *http.Header) {
 	if header.Get("Content-Type") == "" {
 		header.Add("Content-Type", "application/json")
 	}

@@ -52,4 +52,3 @@ func (h *HPut) SetValue(key, value string) *HPut {
 	h.hog.query.Set(key, value)
 	return h
 }
-

@@ -5,4 +5,3 @@ type HMethod interface {
 	getBody() interface{}
 	getName() string
 }
-

@@ -6,7 +6,7 @@ import (
 )
 
 type HPost struct {
-	hog Hog
+	hog  Hog
 	body interface{}
 }
 
@@ -61,4 +61,3 @@ func (h *HPost) SetValue(key, value string) *HPost {
 	h.hog.query.Set(key, value)
 	return h
 }
-

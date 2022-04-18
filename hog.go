@@ -9,13 +9,12 @@ import (
 	"time"
 )
 
-
 type Hog struct {
-	client http.Client
+	client  http.Client
 	headers *http.Header
-	query *url.Values
+	query   *url.Values
 	context context.Context
-	url string
+	url     string
 }
 
 func Get(url string) *HGet {
@@ -49,21 +48,19 @@ func NewClient(client http.Client) *Hog {
 	return &Hog{client: client}
 }
 
-
 func (h *Hog) Context(context context.Context) *Hog {
 	h.context = context
 	return h
 }
 
-
 func (h *Hog) Post(url string) *HPost {
 	h.url = url
-	return  &HPost{hog: *h}
+	return &HPost{hog: *h}
 }
 
 func (h *Hog) Put(url string) *HPut {
 	h.url = url
-	return  &HPut{HPost{hog: *h}}
+	return &HPut{HPost{hog: *h}}
 }
 
 func getFullUrl(uri string, params *url.Values) string {
@@ -73,8 +70,8 @@ func getFullUrl(uri string, params *url.Values) string {
 	return fmt.Sprint(uri, "?", params.Encode())
 }
 
-func fillHeaders(dest *http.Header, source *http.Header,)  {
-	if dest != nil && source != nil{
+func fillHeaders(dest *http.Header, source *http.Header) {
+	if dest != nil && source != nil {
 		for k, varr := range *source {
 			for _, v := range varr {
 				dest.Add(k, v)

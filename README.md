@@ -1,4 +1,7 @@
-**hog** is a library which provides a set of extensions on go's standard `http.Client` library,
+[![Go Report Card](https://goreportcard.com/badge/github.com/aaapi-net/hog)](https://goreportcard.com/report/github.com/aaapi-net/hog)
+[![GoDoc](https://godoc.org/github.com/aaapi-net/hog?status.svg)](http://godoc.org/github.com/aaapi-net/hog)
+
+**hog** is a library which provides a set of extensions on Go's standard `http.Client` library,
 so all interfaces are just a syntax sugar on the standard ones.
 
 Major additional concepts are:

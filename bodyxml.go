@@ -25,7 +25,7 @@ func (bx *BodyXml) getMethod() HMethod {
 	return bx.method
 }
 
-func (*BodyXml) fixHeaders(header *http.Header ) {
+func (*BodyXml) fixHeaders(header *http.Header) {
 	if header.Get("Content-Type") == "" {
 		header.Add("Content-Type", "application/xml")
 	}
@@ -41,17 +41,15 @@ func (bx *BodyXml) MarshalSettings(prefix, indent string) *BodyXml {
 	return bx
 }
 
-
-
 func (bx *BodyXml) Response() (response *http.Response, err error) {
 	return getResponse(bx)
 }
 
-func (bx *BodyXml) AsBytesResponse() (result []byte, response *http.Response, err error){
+func (bx *BodyXml) AsBytesResponse() (result []byte, response *http.Response, err error) {
 	return asBytesResponse(bx)
 }
 
-func (bx *BodyXml) AsStringResponse() (result string, response *http.Response,  err error) {
+func (bx *BodyXml) AsStringResponse() (result string, response *http.Response, err error) {
 	return asStringResponse(bx)
 }
 
@@ -59,23 +57,22 @@ func (bx *BodyXml) ToStructResponse(out interface{}) (response *http.Response, e
 	return toStructResponse(bx, out)
 }
 
-
-func (bx *BodyXml) AsBytes() (result []byte, err error){
-	result, _,  err = bx.AsBytesResponse()
+func (bx *BodyXml) AsBytes() (result []byte, err error) {
+	result, _, err = bx.AsBytesResponse()
 	return
 }
 
-func (bx BodyXml) AsString() (result string, err error)  {
+func (bx BodyXml) AsString() (result string, err error) {
 	result, _, err = bx.AsStringResponse()
 	return
 }
 
-func (bx BodyXml) ToStruct(out interface{}) (err error)  {
+func (bx BodyXml) ToStruct(out interface{}) (err error) {
 	_, err = bx.ToStructResponse(out)
 	return
 }
 
-func (bx BodyXml) AsMap() (result map[string]interface{}, err error)  {
+func (bx BodyXml) AsMap() (result map[string]interface{}, err error) {
 	err = bx.ToStruct(&result)
 	return
 }

@@ -9,13 +9,11 @@ import (
 
 type HGet struct {
 	hog Hog
-
 }
-
 
 func (h *Hog) Get(url string) *HGet {
 	h.url = url
-	return  &HGet{hog: *h}
+	return &HGet{hog: *h}
 }
 
 func (h *HGet) Headers(headers http.Header) *HGet {
@@ -38,7 +36,6 @@ func (h *HGet) SetValue(key, value string) *HGet {
 	return h
 }
 
-
 func (h *HGet) Response() (response *http.Response, err error) {
 
 	if h.hog.context == nil {
@@ -56,11 +53,11 @@ func (h *HGet) Response() (response *http.Response, err error) {
 	return h.hog.client.Do(req)
 }
 
-func (h *HGet) AsBytesResponse() (result []byte, response *http.Response, err error){
+func (h *HGet) AsBytesResponse() (result []byte, response *http.Response, err error) {
 	return asBytesResponse(h)
 }
 
-func (h *HGet) AsStringResponse() (result string, response *http.Response,  err error) {
+func (h *HGet) AsStringResponse() (result string, response *http.Response, err error) {
 	return asStringResponse(h)
 }
 
@@ -68,14 +65,13 @@ func (h *HGet) ToStructResponse(out interface{}) (response *http.Response, err e
 	return toStructResponse(h, out)
 }
 
-func (h *HGet) AsMapResponse() (result map[string]interface{}, response *http.Response,  err error) {
+func (h *HGet) AsMapResponse() (result map[string]interface{}, response *http.Response, err error) {
 	response, err = h.ToStructResponse(&result)
 	return
 }
 
-
-func (h *HGet) AsBytes() (result []byte, err error){
-	result, _,  err = h.AsBytesResponse()
+func (h *HGet) AsBytes() (result []byte, err error) {
+	result, _, err = h.AsBytesResponse()
 	return
 }
 
@@ -84,13 +80,12 @@ func (h *HGet) AsString() (result string, err error) {
 	return
 }
 
-func (h HGet) ToStruct(out interface{}) (err error)  {
+func (h HGet) ToStruct(out interface{}) (err error) {
 	_, err = h.ToStructResponse(out)
 	return
 }
 
-func (h HGet) AsMap() (result map[string]interface{}, err error)  {
+func (h HGet) AsMap() (result map[string]interface{}, err error) {
 	err = h.ToStruct(&result)
 	return
 }
-
