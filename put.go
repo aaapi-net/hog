@@ -39,7 +39,7 @@ func (h *HPut) Headers(headers http.Header) *HPut {
 }
 
 func (h *HPut) SetHeader(key, value string) *HPut {
-	h.hog.headers.Set(key, value)
+	h.hog.SetHeader(key, value)
 	return h
 }
 

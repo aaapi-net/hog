@@ -164,3 +164,7 @@ https://github.com/BRUHItsABunny/gOkHttp
 
 https://github.com/franela/goreq 
 
+# Also see
+
+- **[hog](https://github.com/aaapi-net/hog)** a usable go http.Client
+- **[liam](https://github.com/aaapi-net/liam)** a mail go library 

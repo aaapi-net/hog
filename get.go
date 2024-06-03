@@ -22,7 +22,7 @@ func (h *HGet) Headers(headers http.Header) *HGet {
 }
 
 func (h *HGet) SetHeader(key, value string) *HGet {
-	h.hog.headers.Set(key, value)
+	h.hog.SetHeader(key, value)
 	return h
 }
 

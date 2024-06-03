@@ -48,7 +48,7 @@ func (h *HPost) Headers(headers http.Header) *HPost {
 }
 
 func (h *HPost) SetHeader(key, value string) *HPost {
-	h.hog.headers.Set(key, value)
+	h.hog.SetHeader(key, value)
 	return h
 }
 

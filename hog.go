@@ -45,7 +45,7 @@ func NewConfig(secure bool, timeout int) *Hog {
 }
 
 func NewClient(client http.Client) *Hog {
-	return &Hog{client: client}
+	return &Hog{client: client, query: &url.Values{}}
 }
 
 func (h *Hog) Context(context context.Context) *Hog {
@@ -61,6 +61,19 @@ func (h *Hog) Post(url string) *HPost {
 func (h *Hog) Put(url string) *HPut {
 	h.url = url
 	return &HPut{HPost{hog: *h}}
+}
+
+func (h *Hog) SetHeader(key, value string) *Hog {
+	if h.headers == nil {
+		h.headers = &http.Header{}
+	}
+	h.headers.Set(key, value)
+	return h
+}
+
+func (h *Hog) Headers(headers http.Header) *Hog {
+	h.headers = &headers
+	return h
 }
 
 func getFullUrl(uri string, params *url.Values) string {
