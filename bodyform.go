@@ -50,17 +50,17 @@ func (bf *BodyForm) AsBytes() (result []byte, err error) {
 	return
 }
 
-func (bf BodyForm) AsString() (result string, err error) {
+func (bf *BodyForm) AsString() (result string, err error) {
 	result, _, err = bf.AsStringResponse()
 	return
 }
 
-func (bf BodyForm) ToStruct(out interface{}) (err error) {
+func (bf *BodyForm) ToStruct(out interface{}) (err error) {
 	_, err = bf.ToStructResponse(out)
 	return
 }
 
-func (bf BodyForm) AsMap() (result map[string]interface{}, err error) {
+func (bf *BodyForm) AsMap() (result map[string]interface{}, err error) {
 	err = bf.ToStruct(&result)
 	return
 }

@@ -42,17 +42,17 @@ func (bb *BodyBytes) AsBytes() (result []byte, err error) {
 	return
 }
 
-func (bb BodyBytes) AsString() (result string, err error) {
+func (bb *BodyBytes) AsString() (result string, err error) {
 	result, _, err = bb.AsStringResponse()
 	return
 }
 
-func (bb BodyBytes) ToStruct(out interface{}) (err error) {
+func (bb *BodyBytes) ToStruct(out interface{}) (err error) {
 	_, err = bb.ToStructResponse(out)
 	return
 }
 
-func (bb BodyBytes) AsMap() (result map[string]interface{}, err error) {
+func (bb *BodyBytes) AsMap() (result map[string]interface{}, err error) {
 	err = bb.ToStruct(&result)
 	return
 }

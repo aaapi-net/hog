@@ -62,17 +62,17 @@ func (bx *BodyXml) AsBytes() (result []byte, err error) {
 	return
 }
 
-func (bx BodyXml) AsString() (result string, err error) {
+func (bx *BodyXml) AsString() (result string, err error) {
 	result, _, err = bx.AsStringResponse()
 	return
 }
 
-func (bx BodyXml) ToStruct(out interface{}) (err error) {
+func (bx *BodyXml) ToStruct(out interface{}) (err error) {
 	_, err = bx.ToStructResponse(out)
 	return
 }
 
-func (bx BodyXml) AsMap() (result map[string]interface{}, err error) {
+func (bx *BodyXml) AsMap() (result map[string]interface{}, err error) {
 	err = bx.ToStruct(&result)
 	return
 }

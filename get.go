@@ -80,12 +80,12 @@ func (h *HGet) AsString() (result string, err error) {
 	return
 }
 
-func (h HGet) ToStruct(out interface{}) (err error) {
+func (h *HGet) ToStruct(out interface{}) (err error) {
 	_, err = h.ToStructResponse(out)
 	return
 }
 
-func (h HGet) AsMap() (result map[string]interface{}, err error) {
+func (h *HGet) AsMap() (result map[string]interface{}, err error) {
 	err = h.ToStruct(&result)
 	return
 }

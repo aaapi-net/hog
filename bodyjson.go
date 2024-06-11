@@ -37,34 +37,34 @@ func (bj *BodyJson) Response() (response *http.Response, err error) {
 	return getResponse(bj)
 }
 
-func (h *BodyJson) AsBytesResponse() (result []byte, response *http.Response, err error) {
-	return asBytesResponse(h)
+func (bj *BodyJson) AsBytesResponse() (result []byte, response *http.Response, err error) {
+	return asBytesResponse(bj)
 }
 
-func (h *BodyJson) AsStringResponse() (result string, response *http.Response, err error) {
-	return asStringResponse(h)
+func (bj *BodyJson) AsStringResponse() (result string, response *http.Response, err error) {
+	return asStringResponse(bj)
 }
 
-func (h *BodyJson) ToStructResponse(out interface{}) (response *http.Response, err error) {
-	return toStructResponse(h, out)
+func (bj *BodyJson) ToStructResponse(out interface{}) (response *http.Response, err error) {
+	return toStructResponse(bj, out)
 }
 
-func (h *BodyJson) AsBytes() (result []byte, err error) {
-	result, _, err = h.AsBytesResponse()
+func (bj *BodyJson) AsBytes() (result []byte, err error) {
+	result, _, err = bj.AsBytesResponse()
 	return
 }
 
-func (h BodyJson) AsString() (result string, err error) {
-	result, _, err = h.AsStringResponse()
+func (bj *BodyJson) AsString() (result string, err error) {
+	result, _, err = bj.AsStringResponse()
 	return
 }
 
-func (h BodyJson) ToStruct(out interface{}) (err error) {
-	_, err = h.ToStructResponse(out)
+func (bj *BodyJson) ToStruct(out interface{}) (err error) {
+	_, err = bj.ToStructResponse(out)
 	return
 }
 
-func (h BodyJson) AsMap() (result map[string]interface{}, err error) {
-	err = h.ToStruct(&result)
+func (bj *BodyJson) AsMap() (result map[string]interface{}, err error) {
+	err = bj.ToStruct(&result)
 	return
 }

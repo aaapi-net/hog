@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 )
@@ -47,10 +47,10 @@ func getResponse(r responseBody) (response *http.Response, err error) {
 
 func asBytesResponse(r response) (result []byte, response *http.Response, err error) {
 	response, err = r.Response()
-	defer response.Body.Close()
 
 	if err == nil {
-		result, err = ioutil.ReadAll(response.Body)
+		defer response.Body.Close()
+		result, err = io.ReadAll(response.Body)
 		return
 	}
 
