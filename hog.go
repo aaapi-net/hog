@@ -17,6 +17,18 @@ type Hog struct {
 	url     string
 }
 
+func GetF(format string, a ...any) *HGet {
+	return Get(fmt.Sprintf(format, a...))
+}
+
+func PostF(format string, a ...any) *HPost {
+	return Post(fmt.Sprintf(format, a...))
+}
+
+func PutF(format string, a ...any) *HPut {
+	return Put(fmt.Sprintf(format, a...))
+}
+
 func Get(url string) *HGet {
 	hog := New()
 	return hog.Get(url)
