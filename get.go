@@ -11,11 +11,6 @@ type HGet struct {
 	hog Hog
 }
 
-func (h *Hog) Get(url string) *HGet {
-	h.url = url
-	return &HGet{hog: *h}
-}
-
 func (h *HGet) Headers(headers http.Header) *HGet {
 	h.hog.headers = &headers
 	return h

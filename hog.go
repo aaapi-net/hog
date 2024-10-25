@@ -53,14 +53,31 @@ func (h *Hog) Context(context context.Context) *Hog {
 	return h
 }
 
+func (h *Hog) GetF(format string, a ...any) *HGet {
+	return h.Get(fmt.Sprintf(format, a...))
+}
+
+func (h *Hog) Get(url string) *HGet {
+	h.url = url
+	return &HGet{hog: *h}
+}
+
 func (h *Hog) Post(url string) *HPost {
 	h.url = url
 	return &HPost{hog: *h}
 }
 
+func (h *Hog) PostF(format string, a ...any) *HPost {
+	return h.Post(fmt.Sprintf(format, a...))
+}
+
 func (h *Hog) Put(url string) *HPut {
 	h.url = url
 	return &HPut{HPost{hog: *h}}
+}
+
+func (h *Hog) PutF(format string, a ...any) *HPut {
+	return h.Put(fmt.Sprintf(format, a...))
 }
 
 func (h *Hog) SetHeader(key, value string) *Hog {
