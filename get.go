@@ -2,7 +2,6 @@ package hog
 
 import (
 	"context"
-	"log"
 	"net/http"
 	"net/url"
 )
@@ -32,19 +31,18 @@ func (h *HGet) SetValue(key, value string) *HGet {
 }
 
 func (h *HGet) Response() (response *http.Response, err error) {
-
 	if h.hog.context == nil {
 		h.hog.context = context.Background()
 	}
 
 	req, err := http.NewRequestWithContext(h.hog.context, "GET", getFullUrl(h.hog.url, h.hog.query), nil)
 	if err != nil {
-		return
+		return nil, newError("NewRequest", "failed to create request", err)
 	}
 
 	fillHeaders(&req.Header, h.hog.headers)
 
-	log.Println(req)
+	h.hog.logger.Debug("Executing GET request:", req.URL)
 	return h.hog.client.Do(req)
 }
 

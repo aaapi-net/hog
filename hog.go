@@ -10,11 +10,13 @@ import (
 )
 
 type Hog struct {
-	client  http.Client
-	headers *http.Header
-	query   *url.Values
-	context context.Context
-	url     string
+	client     http.Client
+	headers    *http.Header
+	query      *url.Values
+	context    context.Context
+	url        string
+	logger     Logger
+	retryCount int
 }
 
 func GetF(format string, a ...any) *HGet {
@@ -45,14 +47,21 @@ func Put(url string) *HPut {
 }
 
 func New() *Hog {
-	return NewConfig(true, 30)
+	h := NewConfig(true, 30)
+	h.logger = newDefaultLogger(LogLevelError)
+	return h
 }
 
 func NewConfig(secure bool, timeout int) *Hog {
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: !secure},
 	}
-	client := http.Client{Transport: tr, Timeout: time.Duration(timeout) * time.Second}
+
+	client := http.Client{
+		Transport: tr,
+		Timeout:   time.Duration(timeout) * time.Second,
+	}
+
 	return NewClient(client)
 }
 
@@ -102,6 +111,23 @@ func (h *Hog) SetHeader(key, value string) *Hog {
 
 func (h *Hog) Headers(headers http.Header) *Hog {
 	h.headers = &headers
+	return h
+}
+
+func (h *Hog) Logger(logger Logger) *Hog {
+	h.logger = logger
+	return h
+}
+
+func (h *Hog) RetryCount(count int) *Hog {
+	h.retryCount = count
+	return h
+}
+
+func (h *Hog) LogLevel(level LogLevel) *Hog {
+	if logger, ok := h.logger.(*defaultLogger); ok {
+		logger.SetLevel(level)
+	}
 	return h
 }
 

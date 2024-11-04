@@ -5,8 +5,8 @@ import (
 	"context"
 	"encoding/json"
 	"io"
-	"log"
 	"net/http"
+	"time"
 )
 
 type response interface {
@@ -23,10 +23,14 @@ type responseBody interface {
 func getResponse(r responseBody) (response *http.Response, err error) {
 	method := r.getMethod()
 	hog := method.getHog()
-	buf, err := r.getBuffer()
 
+	if hog.logger == nil {
+		hog.logger = &defaultLogger{level: LogLevelError}
+	}
+
+	buf, err := r.getBuffer()
 	if err != nil {
-		return
+		return nil, newError("getBuffer", "failed to prepare request body", err)
 	}
 
 	if hog.context == nil {
@@ -35,14 +39,37 @@ func getResponse(r responseBody) (response *http.Response, err error) {
 
 	req, err := http.NewRequestWithContext(hog.context, method.getName(), getFullUrl(hog.url, hog.query), buf)
 	if err != nil {
-		return
+		return nil, newError("NewRequest", "failed to create request", err)
 	}
 
 	fillHeaders(&req.Header, hog.headers)
 	r.fixHeaders(&req.Header)
 
-	log.Println(req)
-	return hog.client.Do(req)
+	hog.logger.Debug("Sending request:", req.Method, req.URL)
+
+	var lastErr error
+	for retry := 0; retry <= hog.retryCount; retry++ {
+		if retry > 0 {
+			hog.logger.Info("Retrying request, attempt:", retry)
+			select {
+			case <-hog.context.Done():
+				return nil, newError("Retry", "context cancelled during retry", hog.context.Err())
+			case <-time.After(time.Duration(retry) * time.Second):
+				// Exponential delay between retries
+			}
+		}
+
+		response, err = hog.client.Do(req)
+		if err == nil {
+			hog.logger.Debug("Request successful:", response.Status)
+			return response, nil
+		}
+
+		lastErr = err
+		hog.logger.Error("Request failed:", err)
+	}
+
+	return nil, newError("Request", "all retry attempts failed", lastErr)
 }
 
 func asBytesResponse(r response) (result []byte, response *http.Response, err error) {
@@ -72,7 +99,6 @@ func toStructResponse(r response, out interface{}) (response *http.Response, err
 
 	if err == nil {
 		err = json.Unmarshal(data, out)
-		log.Println(string(data))
 	}
 
 	return
