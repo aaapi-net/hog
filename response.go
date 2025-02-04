@@ -3,7 +3,7 @@ package hog
 import (
 	"bytes"
 	"context"
-	"encoding/json"
+	"github.com/bytedance/sonic"
 	"io"
 	"net/http"
 	"time"
@@ -98,7 +98,7 @@ func toStructResponse(r response, out interface{}) (response *http.Response, err
 	data, response, err := asBytesResponse(r)
 
 	if err == nil {
-		err = json.Unmarshal(data, out)
+		err = sonic.ConfigFastest.Unmarshal(data, out)
 	}
 
 	return
