@@ -11,8 +11,11 @@ type BodyForm struct {
 }
 
 func (bf *BodyForm) getBuffer() (buf *bytes.Buffer, err error) {
-	body := bf.method.getBody().(url.Values).Encode()
-	return bytes.NewBuffer([]byte(body)), nil
+	body, ok := bf.method.getBody().(url.Values)
+	if !ok {
+		return nil, newError("getBuffer", "body is not url.Values", nil)
+	}
+	return bytes.NewBuffer([]byte(body.Encode())), nil
 }
 
 func (bf *BodyForm) getMethod() HMethod {

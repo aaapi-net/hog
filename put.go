@@ -49,6 +49,10 @@ func (h *HPut) Query(query url.Values) *HPut {
 }
 
 func (h *HPut) SetValue(key, value string) *HPut {
+	if h.hog.query == nil {
+		h.hog.query = url.Values{}
+	}
+
 	h.hog.query.Set(key, value)
 	return h
 }

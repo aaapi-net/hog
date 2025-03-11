@@ -59,9 +59,9 @@ func (h *HPost) Query(query url.Values) *HPost {
 
 func (h *HPost) SetValue(key, value string) *HPost {
 	if h.hog.query == nil {
-		query := url.Values{}
-		h.hog.query = query
+		h.hog.query = url.Values{}
 	}
+
 	h.hog.query.Set(key, value)
 	return h
 }
