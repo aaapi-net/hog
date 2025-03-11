@@ -6,6 +6,7 @@ import (
 	"sync"
 )
 
+// LogLevel defines the verbosity of logging.
 type LogLevel int
 
 const (
@@ -15,19 +16,29 @@ const (
 	LogLevelDebug
 )
 
+// Logger defines methods for request/response logging.
 type Logger interface {
+	// Debug logs debug level information.
 	Debug(args ...interface{})
+
+	// Info logs informational messages.
 	Info(args ...interface{})
+
+	// Error logs error information.
 	Error(args ...interface{})
+
+	// IsEnabled checks if a specific log level is active.
 	IsEnabled(level LogLevel) bool
 }
 
+// defaultLogger implements Logger with standard log package.
 type defaultLogger struct {
 	level  LogLevel
 	logger *log.Logger
 	mu     sync.Mutex
 }
 
+// newDefaultLogger creates a new default logger with specified logging level.
 func newDefaultLogger(level LogLevel) *defaultLogger {
 	return &defaultLogger{
 		level:  level,
@@ -35,6 +46,7 @@ func newDefaultLogger(level LogLevel) *defaultLogger {
 	}
 }
 
+// Debug logs debug level information.
 func (l *defaultLogger) Debug(args ...interface{}) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
@@ -44,6 +56,7 @@ func (l *defaultLogger) Debug(args ...interface{}) {
 	}
 }
 
+// Info logs informational messages.
 func (l *defaultLogger) Info(args ...interface{}) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
@@ -53,6 +66,7 @@ func (l *defaultLogger) Info(args ...interface{}) {
 	}
 }
 
+// Error logs error information.
 func (l *defaultLogger) Error(args ...interface{}) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
@@ -62,18 +76,21 @@ func (l *defaultLogger) Error(args ...interface{}) {
 	}
 }
 
+// SetLevel changes the current logging level.
 func (l *defaultLogger) SetLevel(level LogLevel) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
 	l.level = level
 }
 
+// GetLevel returns the current logging level.
 func (l *defaultLogger) GetLevel() LogLevel {
 	l.mu.Lock()
 	defer l.mu.Unlock()
 	return l.level
 }
 
+// IsEnabled checks if a specific log level is active.
 func (l *defaultLogger) IsEnabled(level LogLevel) bool {
 	l.mu.Lock()
 	defer l.mu.Unlock()
