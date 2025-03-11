@@ -3,10 +3,11 @@ package hog
 import (
 	"bytes"
 	"context"
-	"github.com/bytedance/sonic"
 	"io"
 	"net/http"
 	"time"
+
+	"github.com/bytedance/sonic"
 )
 
 type response interface {
@@ -42,7 +43,6 @@ func getResponse(r responseBody) (response *http.Response, err error) {
 		return nil, newError("NewRequest", "failed to create request", err)
 	}
 
-	fillHeaders(&req.Header, hog.headers)
 	r.fixHeaders(&req.Header)
 
 	hog.logger.Debug("Sending request:", req.Method, req.URL)

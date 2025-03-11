@@ -34,7 +34,7 @@ func (h *HPut) Xml(body interface{}) *BodyXml {
 }
 
 func (h *HPut) Headers(headers http.Header) *HPut {
-	h.hog.headers = &headers
+	h.hog.headers = headers
 	return h
 }
 
@@ -44,7 +44,7 @@ func (h *HPut) SetHeader(key, value string) *HPut {
 }
 
 func (h *HPut) Query(query url.Values) *HPut {
-	h.hog.query = &query
+	h.hog.query = query
 	return h
 }
 

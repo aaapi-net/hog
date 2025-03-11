@@ -43,7 +43,7 @@ func (h *HPost) Xml(body interface{}) *BodyXml {
 }
 
 func (h *HPost) Headers(headers http.Header) *HPost {
-	h.hog.headers = &headers
+	h.hog.headers = headers
 	return h
 }
 
@@ -53,11 +53,15 @@ func (h *HPost) SetHeader(key, value string) *HPost {
 }
 
 func (h *HPost) Query(query url.Values) *HPost {
-	h.hog.query = &query
+	h.hog.query = query
 	return h
 }
 
 func (h *HPost) SetValue(key, value string) *HPost {
+	if h.hog.query == nil {
+		query := url.Values{}
+		h.hog.query = query
+	}
 	h.hog.query.Set(key, value)
 	return h
 }

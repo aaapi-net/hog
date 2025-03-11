@@ -11,7 +11,7 @@ type HGet struct {
 }
 
 func (h *HGet) Headers(headers http.Header) *HGet {
-	h.hog.headers = &headers
+	h.hog.headers = headers
 	return h
 }
 
@@ -21,11 +21,15 @@ func (h *HGet) SetHeader(key, value string) *HGet {
 }
 
 func (h *HGet) Query(query url.Values) *HGet {
-	h.hog.query = &query
+	h.hog.query = query
 	return h
 }
 
 func (h *HGet) SetValue(key, value string) *HGet {
+	if h.hog.query == nil {
+		query := url.Values{}
+		h.hog.query = query
+	}
 	h.hog.query.Set(key, value)
 	return h
 }
@@ -40,7 +44,7 @@ func (h *HGet) Response() (response *http.Response, err error) {
 		return nil, newError("NewRequest", "failed to create request", err)
 	}
 
-	fillHeaders(&req.Header, h.hog.headers)
+	fillHeaders(req.Header, h.hog.headers)
 
 	h.hog.logger.Debug("Executing GET request:", req.URL)
 	return h.hog.client.Do(req)

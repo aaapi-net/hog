@@ -11,8 +11,8 @@ import (
 
 type Hog struct {
 	client     http.Client
-	headers    *http.Header
-	query      *url.Values
+	headers    http.Header
+	query      url.Values
 	context    context.Context
 	url        string
 	logger     Logger
@@ -23,12 +23,12 @@ func GetF(format string, a ...any) *HGet {
 	return Get(fmt.Sprintf(format, a...))
 }
 
-func PostF(format string, a ...any) *HPost {
-	return Post(fmt.Sprintf(format, a...))
+func PostF(url string, a ...any) *HPost {
+	return Post(fmt.Sprintf(url, a...))
 }
 
-func PutF(format string, a ...any) *HPut {
-	return Put(fmt.Sprintf(format, a...))
+func PutF(url string, a ...any) *HPut {
+	return Put(fmt.Sprintf(url, a...))
 }
 
 func Get(url string) *HGet {
@@ -66,7 +66,7 @@ func NewConfig(secure bool, timeout int) *Hog {
 }
 
 func NewClient(client http.Client) *Hog {
-	return &Hog{client: client, query: &url.Values{}}
+	return &Hog{client: client, query: url.Values{}}
 }
 
 func (h *Hog) Context(context context.Context) *Hog {
@@ -102,15 +102,12 @@ func (h *Hog) PutF(format string, a ...any) *HPut {
 }
 
 func (h *Hog) SetHeader(key, value string) *Hog {
-	if h.headers == nil {
-		h.headers = &http.Header{}
-	}
 	h.headers.Set(key, value)
 	return h
 }
 
 func (h *Hog) Headers(headers http.Header) *Hog {
-	h.headers = &headers
+	h.headers = headers
 	return h
 }
 
@@ -131,19 +128,17 @@ func (h *Hog) LogLevel(level LogLevel) *Hog {
 	return h
 }
 
-func getFullUrl(uri string, params *url.Values) string {
+func getFullUrl(uri string, params url.Values) string {
 	if params == nil {
 		return uri
 	}
 	return fmt.Sprint(uri, "?", params.Encode())
 }
 
-func fillHeaders(dest *http.Header, source *http.Header) {
-	if dest != nil && source != nil {
-		for k, varr := range *source {
-			for _, v := range varr {
-				dest.Add(k, v)
-			}
+func fillHeaders(dest, source http.Header) {
+	for k, varr := range source {
+		for _, v := range varr {
+			dest.Add(k, v)
 		}
 	}
 }
